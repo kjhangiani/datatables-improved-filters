@@ -1,0 +1,26 @@
+{
+  "name": "datatables-improved-filters",
+  "homepage": "https://github.com/kjhangiani/datatables-improved-filters",
+  "authors": [
+    "Kevin Jhangiani <kevinjh@gmail.com>"
+  ],
+  "description": "Datatables Improved Filters Plugin - API hooks for more sophisticated column-specific filtering.",
+  "main": "js/dataTables.improved-filters.js",
+  "keywords": [
+    "datatables",
+    "improved-filters",
+    "plugin",
+    "jquery-datatables",
+    "column",
+    "filter",
+    "range"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

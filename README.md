@@ -15,7 +15,7 @@ bower install datatables-improved-filters
 # Configuration
 
 See the README for `datatables-metadata` for more information on enabling that plugin.  `datatables-metadata` requires the `M` feature flag.
-datatables-improved-filters has no initialization requirements.
+`datatables-improved-filters` has no initialization requirements.
 
 # Usage
 

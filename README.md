@@ -1,7 +1,7 @@
 # Datatables-ImprovedFilters
 Datatables Improved Filters Plugin - API hooks for more sophisticated column-specific filtering.
 
-This plugin requires datatables-metadata to function.  If datatables-metadata is not included, this plugin will not do anything.
+This plugin requires `datatables-metadata` to function.  If `datatables-metadata` is not included, this plugin will not do anything.
 
 # Installation
 
@@ -14,7 +14,7 @@ bower install datatables-improved-filters
 
 # Configuration
 
-See the README for datatables-metadata for more information on enabling that plugin.  datatables-metadata requires the `M` feature flag.
+See the README for `datatables-metadata` for more information on enabling that plugin.  `datatables-metadata` requires the `M` feature flag.
 datatables-improved-filters has no initialization requirements.
 
 # Usage

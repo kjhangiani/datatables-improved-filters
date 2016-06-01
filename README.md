@@ -32,10 +32,16 @@ Date filters require moment.js
 - `.column().if.gt(min)` // numeric filter for rows that contain data in this column that is greater than (gt) `min`
 - `.column().if.gt()` // clear gt filter
 
+- `.column().if.gte(min)` // numeric filter for rows that contain data in this column that is greater than or equals (gte) `min`
+- `.column().if.gte()` // clear gte filter
+
 - `.column().if.lt(max)` // numeric filter for rows that contain data in this column that is less than (lt) `max`
 - `.column().if.lt()` // clear lt filter
 
-- `.column().if.between(min, max)` // numeric filter for data between `min` and `max`, equivalent to `.if.gt(min).if.lt(max)`
+- `.column().if.lte(max)` // numeric filter for rows that contain data in this column that is less than or equals (lte) `max`
+- `.column().if.lte()` // clear lte filter
+
+- `.column().if.between(min, max)` // numeric filter for data between `min` and `max`, equivalent to `.if.gte(min).if.lte(max)`
 - `.column().if.between()` // clear between filter
 
 - `.column().if.after(dateMin)` // *requires moment.js* date filter for rows that contain dates in this column that is after `dateMin`. 

@@ -7,15 +7,16 @@
  * .column().if(conditionObject)
  * .column().if.eq(val)
  * .column().if.gt(min)
+ * .column().if.gte(min)
  * .column().if.lt(max)
- * .column().if.between(min, max) == .if.gt(min).if.lt(max)
+ * .column().if.lte(max)
+ * .column().if.between(min, max) == .if.gte(min).if.lt(max)
  *
  * .column().if.after(dateMin)
  * .column().if.before(dateMax)
  * .column().if.during(dateMin, dateMax)
  *
- * 
- * Coming soon: Api.column().dateRange(min, max) (requires moment)
+
  *
  */
  
@@ -125,8 +126,18 @@ ImprovedFilters._filterValue = function(data, checkVal, op) {
       else { return false; }
       break;
       
+    case 'lte':
+      if (data !== null && data <= checkVal) { return true; }
+      else { return false; }
+      break;
+      
     case 'gt':
       if (data !== null && data > checkVal) { return true; }
+      else { return false; }
+      break;
+      
+    case 'gte':
+      if (data !== null && data >= checkVal) { return true; }
       else { return false; }
       break;
       
@@ -170,7 +181,7 @@ ImprovedFilters._filterDate = function(data, checkVal, op) {
   // convert data/checkVal to timestamps, do numeric comparison
   switch(op) {
     case 'after':
-      return ImprovedFilters._filterValue(dataTimestamp, checkValTimestamp, 'gt');
+      return ImprovedFilters._filterValue(dataTimestamp, checkValTimestamp, 'gte');
       break;
     case 'before':
       return ImprovedFilters._filterValue(dataTimestamp, checkValTimestamp, 'lt');
@@ -187,7 +198,7 @@ ImprovedFilters._filterDate = function(data, checkVal, op) {
  * @type {string}
  * @static
  */
-ImprovedFilters.version = '0.1.0';
+ImprovedFilters.version = '0.1.1';
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -211,6 +222,7 @@ DataTable.Api.register('column().if()', function () {
   this.column(colIndex).meta.remove('_filters');
   return this;
 });
+
 
 /**
   .column().if.gt()
@@ -238,7 +250,35 @@ DataTable.Api.register('column().if.gt()', function (min) {
   return this;
 });
 
+
+
+/**
+  .column().if.gte()
+  .column().if.gte(min)
+  
+  include row if column data >= min, or clear this filter
+  
+  chainable, returns Api
+**/
+DataTable.Api.register('column().if.gte()', function (min) {
+  var colIndex = this.index();
+  
+  // metadata plugin not loaded, just return
+  if (this.settings()[0]._metadataEnabled !== true) { return this; }
+  
+  // if no parameters, or only a single null parameter, then clear the search state
+  if (!arguments.length || (arguments.length === 1 && min === null)) {
+    this.column(colIndex).meta.merge('_filters', { gte: null });
+    return this;
+  } 
+  
+  // if we have parameters, set them
+  // @todo: validate these values
+  this.column(colIndex).meta.merge('_filters', { gte: min });
+  return this;
+});
  
+
 /**
   .column().if.lt()
   .column().if.lt(max)
@@ -265,10 +305,35 @@ DataTable.Api.register('column().if.lt()', function (max) {
 
 
 /**
+  .column().if.lte()
+  .column().if.lte(max)
+  
+  include row if column data < max, or clear this filter
+  
+  chainable, returns Api
+**/
+DataTable.Api.register('column().if.lte()', function (max) {
+  var colIndex = this.index();
+  
+  // metadata plugin not loaded, just return
+  if (this.settings()[0]._metadataEnabled !== true) { return this; }
+  
+  // if no parameters, or only a single null parameter, then clear the search state
+  if (!arguments.length || (arguments.length === 1 && max === null)) {
+    this.column(colIndex).meta.merge('_filters', { lte: null });
+    return this;
+  } 
+
+  this.column(colIndex).meta.merge('_filters', { lte: max });
+  return this;
+});
+
+
+/**
   .column().if.between()
   .column().if.between(min, max)
   
-  include row if column min < data < max, or clear this filter
+  include row if column min <= data < max, or clear this filter
   
   chainable, returns Api
 **/
@@ -280,11 +345,11 @@ DataTable.Api.register('column().if.between()', function (min, max) {
   
   // if no parameters, or only a single null parameter, then clear the search state
   if (!arguments.length) {
-    this.column(colIndex).meta.merge('_filters', { gt: null, lt: null });
+    this.column(colIndex).meta.merge('_filters', { gte: null, lt: null });
     return this;
   } 
 
-  this.column(colIndex).meta.merge('_filters', { gt: min, lt: max });
+  this.column(colIndex).meta.merge('_filters', { gte: min, lt: max });
   return this;
 });
 
@@ -293,7 +358,7 @@ DataTable.Api.register('column().if.between()', function (min, max) {
   .column().if.after()
   .column().if.after(dateMin)
   
-  include row if column data > dateMin, or clear this filter
+  include row if column data >= dateMin, or clear this filter
   requires moment.js
   
   chainable, returns Api

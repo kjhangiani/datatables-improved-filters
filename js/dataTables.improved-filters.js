@@ -184,7 +184,7 @@ ImprovedFilters._filterDate = function(data, checkVal, op) {
       return ImprovedFilters._filterValue(dataTimestamp, checkValTimestamp, 'gte');
       break;
     case 'before':
-      return ImprovedFilters._filterValue(dataTimestamp, checkValTimestamp, 'lt');
+      return ImprovedFilters._filterValue(dataTimestamp, checkValTimestamp, 'lte');
       break;
   }
   
@@ -345,11 +345,11 @@ DataTable.Api.register('column().if.between()', function (min, max) {
   
   // if no parameters, or only a single null parameter, then clear the search state
   if (!arguments.length) {
-    this.column(colIndex).meta.merge('_filters', { gte: null, lt: null });
+    this.column(colIndex).meta.merge('_filters', { gte: null, lte: null });
     return this;
   } 
 
-  this.column(colIndex).meta.merge('_filters', { gte: min, lt: max });
+  this.column(colIndex).meta.merge('_filters', { gte: min, lte: max });
   return this;
 });
 

@@ -232,7 +232,7 @@ ImprovedFilters._filterDate = function(data, checkVal, op) {
  * @type {string}
  * @static
  */
-ImprovedFilters.version = '0.1.2';
+ImprovedFilters.version = '0.1.3';
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -531,6 +531,8 @@ DataTable.Api.register('column().if.hasAll()', function () {
 
   // if we have parameters, set them
   // @todo: validate these values
+  // we clear our metadata first to ensure the values array does not merge
+  this.column(colIndex).meta.merge('_filters', { hasAll: null });
   this.column(colIndex).meta.merge('_filters', { hasAll: { values: values, splitBy: splitBy } });
   return this;
 });
@@ -570,6 +572,8 @@ DataTable.Api.register('column().if.hasAny()', function () {
 
   // if we have parameters, set them
   // @todo: validate these values
+  // we clear our metadata first to ensure the values array does not merge
+  this.column(colIndex).meta.merge('_filters', { hasAny: null });
   this.column(colIndex).meta.merge('_filters', { hasAny: { values: values, splitBy: splitBy } });
   return this;
 });
